@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avinash Pradhan - Python Full-Stack Developer</title>
+    <meta name="description" content="Avinash Pradhan is a Python and Django full-stack developer building thoughtful web applications and reliable backends.">
+    <!-- Load Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+        }
+        /* Glassmorphism utility */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(34, 211, 238, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(34, 211, 238, 0.15);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+        :root { color-scheme: dark; scroll-padding-top: 5.5rem; }
+        body { background-color: #111827; background-image: none; }
+        main > section:nth-of-type(odd) { background-color: #111827 !important; }
+        main > section:nth-of-type(even) { background-color: #1f2937 !important; }
+        .glass-card { background: #1f2937; backdrop-filter: none; -webkit-backdrop-filter: none; border: 1px solid rgba(255,255,255,.07); box-shadow: 0 18px 40px rgba(0,0,0,.22); }
+        .glass-card:hover { border-color: rgba(34,211,238,.55); box-shadow: 0 18px 42px rgba(0,0,0,.3), 0 0 24px rgba(34,211,238,.08); }
+        section { scroll-margin-top: 5rem; }
+        .page-progress { position: fixed; inset: 0 auto auto 0; height: 3px; width: 0; z-index: 60; background: linear-gradient(90deg,#22d3ee,#3b82f6,#a78bfa); box-shadow: 0 0 16px rgba(34,211,238,.65); }
+        .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+        .reveal.is-visible { opacity: 1; transform: translateY(0); }
+        .nav-link[aria-current="location"] { color: #22d3ee; font-weight: 700; }
+        .filter-chip[aria-pressed="true"] { color: #07111d; background: #22d3ee; border-color: #22d3ee; }
+        .project-card[hidden] { display: none; }
+        #back-to-top { opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s, transform .2s; }
+        #back-to-top.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } .reveal { opacity: 1; transform: none; } }
+        /* Larger, more comfortable reading scale across the whole portfolio. */
+        body { font-size: 18px; }
+        .text-xs { font-size: .9rem; }
+        .text-sm { font-size: 1rem; }
+        .text-base { font-size: 1.15rem; }
+        .text-lg { font-size: 1.3rem; }
+        .text-xl { font-size: 1.55rem; }
+        .text-2xl { font-size: 1.9rem; }
+        .text-3xl { font-size: 2.25rem; }
+        .text-4xl { font-size: clamp(2.5rem, 4vw, 3.35rem); }
+        .text-5xl { font-size: clamp(3rem, 5vw, 4.1rem); }
+        .text-7xl { font-size: clamp(3.7rem, 8vw, 6.2rem); }
+        #about img { width: 100%; max-width: 26rem; aspect-ratio: 1; min-height: 0; object-fit: cover; }
+        .portrait-fallback { width: min(100%, 26rem); min-height: 24rem; display: grid; place-items: center; overflow: hidden; text-align: center; background: radial-gradient(circle at 70% 25%,rgba(34,211,238,.28),transparent 38%),linear-gradient(145deg,#172554,#0f172a 60%,#164e63); }
+        .portrait-fallback .initials { display:grid; place-items:center; width: 10rem; height:10rem; border:1px solid rgba(255,255,255,.24); border-radius:50%; color:#a5f3fc; font-size:4rem; font-weight:800; background:rgba(15,23,42,.55); box-shadow:0 0 80px rgba(34,211,238,.18); }
+        .project-image { display:block; width:100%; height:18rem; object-fit:cover; background:#111827; }
+        #about .container { max-width: 84rem; }
+        #about .grid { gap: 4rem; }
+        #about img, .portrait-fallback { max-width: 33rem; }
+        #about .grid > div:first-child > p { font-size: 1.35rem; line-height: 1.8; }
+        #about h3 { font-size: 1.8rem; margin-top: 2.5rem; }
+        #about h2, #experience h2, #education h2, #certificates h2 { font-size: clamp(2.7rem, 4vw, 3.4rem); }
+        #tech-stack-grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; }
+        #tech-stack-grid span { min-height: 4.25rem; display:flex; align-items:center; border-radius: 1rem; padding: .9rem 1rem; font-size: 1.05rem; font-weight:700; line-height:1.3; }
+        #experience .container, #education .container, #certificates .container { max-width: 82rem; }
+        #experience .glass-card, #education .glass-card, #certificates .glass-card { padding: 3rem; }
+        #experience .glass-card h3, #education .glass-card h3 { font-size: 2.15rem; }
+        #experience .glass-card li, #education .glass-card p { font-size: 1.25rem; line-height: 1.8; }
+        #experience .space-y-8, #education .space-y-8 { gap: 2rem; }
+        #certificates .glass-card { max-width: none; width:100%; }
+        #certificates .glass-card h3 { font-size: 2rem; }
+        #certificates .glass-card p { font-size:1.25rem; line-height:1.8; }
+        #project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+        #project-grid .project-card:nth-child(3) { grid-column: 1 / -1; width: min(100%, 54rem); justify-self: center; }
+        #project-grid .project-card > .p-6 { padding: 2rem; }
+        #project-grid .project-card > div:last-child { padding: 1.5rem 2rem 2rem; }
+        #project-grid .project-image { height: 22rem; }
+        #project-grid h3 { min-height: 0; font-size: 1.8rem; margin-bottom: 1rem; }
+        #project-grid .project-card p { font-size: 1.15rem; }
+        #project-grid .project-card li { font-size: 1rem; }
+        .project-tag { display:inline-flex; align-items:center; border:1px solid rgba(34,211,238,.18); background:rgba(34,211,238,.08); color:#a5f3fc; border-radius:9999px; padding:.5rem .9rem; font-size:.92rem; font-weight:600; }
+        @media (min-width: 1100px) {
+            #project-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            #project-grid .project-card:nth-child(3) { grid-column: auto; width: 100%; }
+            #project-grid .project-image { height: 16rem; }
+        }
+        @media (max-width: 767px) {
+            body { font-size: 16px; }
+            #about img, .portrait-fallback { min-height: 0; }
+            #about .grid { gap: 2rem; }
+            #about .grid > div:first-child > p { font-size:1.1rem; }
+            #tech-stack-grid { grid-template-columns: 1fr 1fr; }
+            #tech-stack-grid span { min-height:3.6rem; font-size:.95rem; }
+            #experience .glass-card, #education .glass-card, #certificates .glass-card { padding:1.5rem; }
+            #experience .glass-card h3, #education .glass-card h3 { font-size:1.6rem; }
+            #experience .glass-card li, #education .glass-card p, #certificates .glass-card p { font-size:1.05rem; }
+            #project-grid { grid-template-columns: 1fr; }
+            #project-grid .project-card:nth-child(3) { grid-column: auto; width: 100%; }
+            #project-grid .project-image { height: 17rem; }
+            #project-grid .project-card > .p-6 { padding: 1.5rem; }
+            #project-grid .project-card > div:last-child { padding: 1.25rem 1.5rem 1.5rem; }
+            #experience .glass-card, #education .glass-card, #certificates .glass-card { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body class="text-gray-100 antialiased selection:bg-cyan-500 selection:text-gray-900">
+    <div class="page-progress" id="page-progress" aria-hidden="true"></div>
+
+    <!-- Header / Navigation -->
+    <header class="bg-[#0b0f19]/80 backdrop-blur-lg border-b border-white/5 fixed top-0 left-0 right-0 z-50">
+        <nav class="container mx-auto max-w-7xl px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                &lt;Avinash Pradhan /&gt;
+            </a>
+            <div class="hidden md:flex space-x-6 font-medium">
+                <a href="#home" class="nav-link text-gray-300 hover:text-cyan-400 transition duration-300">Home</a>
+                <a href="#about" class="nav-link text-gray-300 hover:text-cyan-400 transition duration-300">About</a>
+                <a href="#experience" class="nav-link text-gray-300 hover:text-cyan-400 transition duration-300">Experience</a>
+                <a href="#education" class="nav-link text-gray-300 hover:text-cyan-400 transition duration-300">Education</a>
+                <a href="#projects" class="nav-link text-gray-300 hover:text-cyan-400 transition duration-300">Projects</a>
+                <a href="#certificates" class="nav-link text-gray-300 hover:text-cyan-400 transition duration-300">Training</a>
+                <a href="#contact" class="nav-link text-gray-300 hover:text-cyan-400 transition duration-300">Contact</a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-cyan-400 rounded-lg p-2 transition duration-300" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </nav>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2 bg-[#0b0f19] border-b border-gray-800">
+            <a href="#home" class="nav-link-mobile block text-gray-300 hover:text-cyan-400 py-1.5 border-b border-gray-800/60">Home</a>
+            <a href="#about" class="nav-link-mobile block text-gray-300 hover:text-cyan-400 py-1.5 border-b border-gray-800/60">About</a>
+            <a href="#experience" class="nav-link-mobile block text-gray-300 hover:text-cyan-400 py-1.5 border-b border-gray-800/60">Experience</a>
+            <a href="#education" class="nav-link-mobile block text-gray-300 hover:text-cyan-400 py-1.5 border-b border-gray-800/60">Education</a>
+            <a href="#projects" class="nav-link-mobile block text-gray-300 hover:text-cyan-400 py-1.5 border-b border-gray-800/60">Projects</a>
+            <a href="#certificates" class="nav-link-mobile block text-gray-300 hover:text-cyan-400 py-1.5 border-b border-gray-800/60">Training</a>
+            <a href="#contact" class="nav-link-mobile block text-gray-300 hover:text-cyan-400 py-1.5">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Section 1: Home / Hero -->
+        <section id="home" class="min-h-screen flex items-center justify-center py-20 px-4 relative overflow-hidden pt-24">
+            <!-- Subtle Background Glow -->
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="container mx-auto max-w-7xl px-6 text-center relative z-10">
+                <span class="glass-card inline-flex items-center gap-2 text-cyan-300 font-semibold tracking-wide text-sm rounded-full px-4 py-2 mb-4"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Python | Django | Full-Stack</span>
+                <p class="text-cyan-400 font-semibold tracking-wider uppercase text-sm">Hi, my name is</p>
+                <h1 class="text-4xl md:text-7xl font-extrabold mt-3 mb-4 tracking-tight">
+                    Avinash Pradhan.
+                </h1>
+                <h2 class="text-2xl md:text-5xl font-bold text-gray-400 mb-8">
+                    I build scalable web backends &amp; interactive UIs.
+                </h2>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-300 mb-10 leading-relaxed">
+                    I'm a <strong class="text-cyan-400 font-semibold">Python Full-Stack Developer</strong> specializing in building robust backend architectures with <strong class="text-white font-semibold">Django</strong>, relational databases, and clean, responsive front-end interfaces.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#projects" class="bg-cyan-500 text-gray-950 font-bold py-3 px-8 rounded-lg text-lg hover:bg-cyan-400 transition duration-300 shadow-lg shadow-cyan-500/25 transform hover:-translate-y-1">
+                        View My Work
+                    </a>
+                    <a href="#contact" class="glass-card text-cyan-400 font-semibold py-3 px-8 rounded-lg text-lg hover:bg-white/10 transition duration-300 transform hover:-translate-y-1">
+                        Contact Me
+                    </a>
+                </div>
+                <a href="#about" class="inline-flex items-center gap-2 mt-14 text-sm text-gray-400 hover:text-cyan-300 transition" aria-label="Scroll to about section">Explore portfolio <span aria-hidden="true">&#8595;</span></a>
+            </div>
+        </section>
+
+        <!-- Section 2: About (Introduction & Skills) -->
+        <section id="about" class="min-h-screen flex items-center justify-center py-20 px-4 bg-[#0f1626]">
+            <div class="container mx-auto max-w-7xl px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
+                    <span class="text-cyan-400">01.</span> About Me &amp; Tech Stack
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
+                    
+                    <!-- Text Content -->
+                    <div class="md:col-span-3">
+                        <p class="text-lg text-gray-300 mb-4 leading-relaxed">
+                            Hello! I'm <strong class="text-white">Avinash Pradhan</strong>, a <strong class="text-cyan-400">Python Full-Stack Developer</strong> focused on building complete web applications with Python, Django, relational databases, and modern front-end tools.
+                        </p>
+                        <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+                            I enjoy turning ideas into useful products—from responsive interfaces and REST APIs to secure authentication, database workflows, and reliable CRUD features.
+                        </p>
+                        
+                        <h3 class="text-xl font-semibold text-gray-100 mb-4 mt-8">Core Technologies &amp; Tools</h3>
+                        <div id="tech-stack-grid" class="grid grid-cols-2 xl:grid-cols-3 gap-3">
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">Python</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">Django</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">React</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">HTML5 &amp; CSS3</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">JavaScript</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">Bootstrap</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">Tailwind CSS</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">PostgreSQL</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">MySQL &amp; SQLite</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">REST APIs</span>
+                            <span class="glass-card text-cyan-300 py-2 px-4 rounded-full font-medium text-sm transition hover:bg-cyan-500 hover:text-gray-950">Git &amp; GitHub</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Image and Social Links -->
+                    <div class="md:col-span-2 flex flex-col items-center justify-center pt-4">
+                        <div class="relative group">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-60 transition duration-500"></div>
+                            <img src="./Avinashimg.jpeg" 
+                                 alt="Avinash Pradhan" 
+                                 class="relative rounded-xl shadow-2xl object-cover border-2 border-cyan-500/40"
+                                 onerror="this.onerror=null;this.hidden=true;this.nextElementSibling.hidden=false">
+                            <div class="portrait-fallback glass-card relative rounded-xl shadow-2xl border-2 border-cyan-500/40" hidden aria-label="Portrait placeholder">
+                                <div><div class="initials mx-auto mb-5">AP</div><p class="text-cyan-100 font-semibold">Avinash Pradhan</p></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Social Links (Update hrefs with your actual profile URLs) -->
+                        <div class="flex space-x-6 mt-6">
+                            <a href="https://github.com/Avinash-pradhan" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan-400 transition duration-300" title="GitHub">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2Z" clip-rule="evenodd" /></svg>
+                            </a>
+                            <a href="https://www.linkedin.com/in/avinash-pradhan-backend-and-frontend-developer" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-cyan-400 transition duration-300" title="LinkedIn">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Experience -->
+        <section id="experience" class="min-h-screen flex items-center justify-center py-20 px-4 bg-[#0b0f19]">
+            <div class="container mx-auto max-w-4xl px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
+                    <span class="text-cyan-400">02.</span> Experience
+                </h2>
+
+                <div class="space-y-8">
+                    <!-- Role 1 -->
+                    <div class="glass-card p-8 rounded-xl border-l-4 border-l-cyan-500 transition duration-300">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+                            <h3 class="text-2xl font-bold text-gray-100">Python Full-Stack Intern</h3>
+                            <span class="text-sm text-cyan-300 bg-cyan-500/10 px-3 py-1 rounded-full font-medium mt-2 sm:mt-0">April 2025 – Present</span>
+                        </div>
+                        <p class="text-cyan-400 text-lg font-semibold mb-4">QSpiders Training Institute — Noida, India</p>
+                        <ul class="list-disc list-inside text-gray-300 space-y-3 pl-2">
+                            <li>Built end-to-end full-stack web applications using <strong class="text-white">Python, Django, HTML5, CSS3, and JavaScript</strong>.</li>
+                            <li>Designed relational database schemas and wrote complex queries across <strong class="text-white">PostgreSQL, MySQL, Oracle SQL, and SQLite</strong>.</li>
+                            <li>Implemented secure authentication, role-based access control (Admin/User panels), Django ModelForms, and inline formsets.</li>
+                            <li>Built and integrated <strong class="text-white">REST APIs</strong>, authentication flows, and reusable backend features.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Education -->
+        <section id="education" class="min-h-screen flex items-center justify-center py-20 px-4 bg-[#0f1626]">
+            <div class="container mx-auto max-w-4xl px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">
+                    <span class="text-cyan-400">03.</span> Education
+                </h2>
+
+                <div class="space-y-8">
+                    <!-- Degree 1 -->
+                    <div class="glass-card p-8 rounded-xl border-l-4 border-l-cyan-500 transition duration-300">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+                            <h3 class="text-2xl font-bold text-gray-100">Master of Computer Applications (MCA)</h3>
+                            <span class="text-sm text-cyan-300 bg-cyan-500/10 px-3 py-1 rounded-full font-medium mt-2 sm:mt-0">2026 – Present</span>
+                        </div>
+                        <p class="text-cyan-400 text-lg font-semibold mb-2">Manipal University Jaipur (Online)</p>
+                        <p class="text-gray-300 text-base">Specialization: Software Engineering &amp; Cloud Computing.</p>
+                    </div>
+
+                    <!-- Degree 2 -->
+                    <div class="glass-card p-8 rounded-xl border-l-4 border-l-cyan-500 transition duration-300">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2">
+                            <h3 class="text-2xl font-bold text-gray-100">Bachelor of Computer Applications (BCA)</h3>
+                            <span class="text-sm text-gray-400 font-medium mt-1 sm:mt-0">Graduated 2024 • 70.51%</span>
+                        </div>
+                        <p class="text-cyan-400 text-lg font-semibold mb-2">Veer Kunwar Singh University (VKSU), Ara, Bihar</p>
+                        <p class="text-gray-300 text-base">Coursework: Data Structures, DBMS, Operating Systems, and Web Technologies.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Projects -->
+        <section id="projects" class="min-h-screen flex items-center justify-center py-20 px-4 bg-[#0b0f19]">
+    <div class="container mx-auto max-w-7xl px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-8">
+            <span class="text-cyan-400">04.</span> Featured Python Full-Stack Projects
+        </h2>
+        <p class="text-lg text-gray-400 text-center max-w-3xl mx-auto mb-12">Python and Django applications with responsive React interfaces, practical workflows, and relational databases.</p>
+        <div class="flex flex-wrap justify-center gap-2 mb-8" role="group" aria-label="Filter projects">
+            <button class="filter-chip glass-card rounded-full px-4 py-2 text-sm text-gray-300 transition" type="button" data-filter="all" aria-pressed="true">All projects</button>
+            <button class="filter-chip glass-card rounded-full px-4 py-2 text-sm text-gray-300 transition" type="button" data-filter="python" aria-pressed="false">Python</button>
+            <button class="filter-chip glass-card rounded-full px-4 py-2 text-sm text-gray-300 transition" type="button" data-filter="django" aria-pressed="false">Django</button>
+            <button class="filter-chip glass-card rounded-full px-4 py-2 text-sm text-gray-300 transition" type="button" data-filter="database" aria-pressed="false">Databases</button>
+        </div>
+        <div id="project-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <article class="project-card glass-card rounded-xl overflow-hidden flex flex-col transition duration-300 hover:-translate-y-2" data-tech="python django database react bootstrap">
+                <img src="./study%20notion%20ed-tech%20platform%20image.jpeg" alt="Study Notion Ed-Tech Platform dashboard" class="project-image" loading="lazy">
+                <div class="p-6 flex-1">
+                    <p class="text-cyan-400 text-sm font-semibold tracking-wide uppercase mb-2">Ed-Tech Platform</p>
+                    <h3 class="text-xl font-bold mb-4 text-white">Study Notion</h3>
+                    <p class="text-gray-300 text-base leading-relaxed mb-4">A full-featured learning platform where users can create, explore, consume, and rate educational content.</p>
+                    <ul class="text-gray-400 text-sm space-y-2 leading-relaxed">
+                        <li>Built a responsive, intuitive interface with HTML, CSS, JavaScript, Bootstrap, and React.</li>
+                        <li>Designed the backend around Python, Django/Flask, PostgreSQL/MySQL, authentication, and API integration.</li>
+                    </ul>
+                </div>
+                <div class="px-6 pb-6 flex flex-wrap gap-2 border-t border-white/5 pt-4">
+                    <span class="project-tag">Python</span><span class="project-tag">Django</span><span class="project-tag">HTML5 &amp; CSS3</span><span class="project-tag">React</span><span class="project-tag">PostgreSQL</span><span class="project-tag">Bootstrap</span>
+                </div>
+            </article>
+
+            <article class="project-card glass-card rounded-xl overflow-hidden flex flex-col transition duration-300 hover:-translate-y-2" data-tech="python django database react">
+                <img src="./crud%20application%20image.jpeg" alt="CRUD Employee Management System dashboard" class="project-image" loading="lazy">
+                <div class="p-6 flex-1">
+                    <p class="text-cyan-400 text-sm font-semibold tracking-wide uppercase mb-2">Employee Management</p>
+                    <h3 class="text-xl font-bold mb-4 text-white">CRUD Application</h3>
+                    <p class="text-gray-300 text-base leading-relaxed mb-4">A responsive employee management system with Create, Read, Update, and Delete workflows.</p>
+                    <ul class="text-gray-400 text-sm space-y-2 leading-relaxed">
+                        <li>Created employee management, login, and signup interfaces with React and Tailwind CSS.</li>
+                        <li>Built a Django REST backend with SQLite/PostgreSQL for secure, reliable data operations.</li>
+                    </ul>
+                </div>
+                <div class="px-6 pb-6 flex flex-wrap gap-2 border-t border-white/5 pt-4">
+                    <span class="project-tag">Python</span><span class="project-tag">Django</span><span class="project-tag">React</span><span class="project-tag">Tailwind CSS</span><span class="project-tag">PostgreSQL</span><span class="project-tag">SQLite</span>
+                </div>
+            </article>
+
+            <article class="project-card glass-card rounded-xl overflow-hidden flex flex-col transition duration-300 hover:-translate-y-2" data-tech="python django database react">
+                <img src="./shopingcart%20image.jpeg" alt="Shopping Cart Application product and order summary" class="project-image" loading="lazy">
+                <div class="p-6 flex-1">
+                    <p class="text-cyan-400 text-sm font-semibold tracking-wide uppercase mb-2">E-Commerce</p>
+                    <h3 class="text-xl font-bold mb-4 text-white">Shopping Cart Application</h3>
+                    <p class="text-gray-300 text-base leading-relaxed mb-4">A responsive online shopping experience built with Django, React, and Tailwind CSS.</p>
+                    <ul class="text-gray-400 text-sm space-y-2 leading-relaxed">
+                        <li>Implemented add-to-cart, remove, and quantity update features with React state management.</li>
+                        <li>Used Django with SQLite/PostgreSQL to manage products, user sessions, and cart data.</li>
+                    </ul>
+                </div>
+                <div class="px-6 pb-6 flex flex-wrap gap-2 border-t border-white/5 pt-4">
+                    <span class="project-tag">Python</span><span class="project-tag">Django</span><span class="project-tag">React</span><span class="project-tag">Tailwind CSS</span><span class="project-tag">PostgreSQL</span><span class="project-tag">SQLite</span>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+        <!-- Section 6: Certifications & Training -->
+        <section id="certificates" class="min-h-screen flex items-center justify-center py-20 px-4 bg-[#0f1626]">
+    <div class="container mx-auto max-w-4xl px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
+            <span class="text-cyan-400">05.</span> Python Full-Stack Training
+        </h2>
+        <div class="max-w-2xl mx-auto glass-card rounded-xl p-8 transition duration-300">
+            <div class="text-cyan-400 mb-4">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2 text-white">Python Full-Stack Web Development</h3>
+            <p class="text-cyan-400 mb-3 text-base font-medium">QSpiders Training Institute, Noida</p>
+            <p class="text-gray-300 text-base leading-relaxed">Training in Python, Django, database development, REST APIs, and responsive front-end development.</p>
+        </div>
+    </div>
+</section>
+
+        <!-- Section 7: Contact -->
+        <section id="contact" class="min-h-screen flex items-center justify-center py-20 px-4 bg-[#0b0f19]">
+            <div class="container mx-auto max-w-3xl px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">
+                    <span class="text-cyan-400">06.</span> Get In Touch
+                </h2>
+                <p class="text-lg text-gray-300 mb-10 max-w-xl mx-auto">
+                    Looking for a Python/Django developer or have a project in mind? Feel free to reach out. My inbox is always open.
+                </p>
+                <div class="inline-flex flex-col items-center gap-1 mb-10 glass-card rounded-xl px-7 py-4">
+                    <span class="text-cyan-400 text-sm font-semibold uppercase tracking-wider">Call me</span>
+                    <a href="tel:+919122246814" class="text-xl font-bold text-white hover:text-cyan-300 transition">+91 9122246814</a>
+                </div>
+
+                <form id="contact-form" class="w-full max-w-lg mx-auto p-8 glass-card rounded-2xl">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2 text-left" for="grid-name">
+                                Name
+                            </label>
+                            <input class="appearance-none block w-full bg-gray-900/80 text-gray-100 border border-gray-700 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-cyan-500 transition duration-200" id="grid-name" type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3">
+                            <label class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2 text-left" for="grid-email">
+                                Email
+                            </label>
+                            <input class="appearance-none block w-full bg-gray-900/80 text-gray-100 border border-gray-700 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-cyan-500 transition duration-200" id="grid-email" type="email" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2 text-left" for="grid-message">
+                                Message
+                            </label>
+                            <textarea class="appearance-none block w-full bg-gray-900/80 text-gray-100 border border-gray-700 rounded-lg py-3 px-4 leading-tight focus:outline-none focus:border-cyan-500 h-40 resize-none transition duration-200" id="grid-message" placeholder="Write your message here..." required></textarea>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <button class="bg-cyan-500 text-gray-950 font-bold py-3 px-8 rounded-lg text-lg hover:bg-cyan-400 transition duration-300 shadow-lg shadow-cyan-500/25 transform hover:-translate-y-1 cursor-pointer" type="submit">
+                            Send Message
+                        </button>
+                        <div id="form-status" class="mt-4 text-base font-medium"></div>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0b0f19] py-8 border-t border-white/5">
+        <div class="container mx-auto max-w-7xl px-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 Avinash Pradhan. Built with Python, Django &amp; Tailwind CSS.</p>
+        </div>
+    </footer>
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-40 glass-card rounded-full w-12 h-12 text-cyan-300 text-xl shadow-lg hover:bg-cyan-500 hover:text-gray-950 transition" type="button" aria-label="Back to top">↑</button>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                const isOpen = !mobileMenu.classList.contains('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+                mobileMenuBtn.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                        mobileMenuBtn.setAttribute('aria-label', 'Open navigation menu');
+                    }
+                });
+            });
+
+            // 2. Contact Form Handler
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                formStatus.textContent = 'Thanks! This form is a front-end demo and is not connected to an inbox yet.';
+                formStatus.classList.add('text-amber-300');
+            });
+
+            // 3. Active Navigation Highlighting on Scroll
+            const sections = document.querySelectorAll('section');
+            const desktopNavLinks = document.querySelectorAll('nav .nav-link');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        desktopNavLinks.forEach(link => {
+                            link.removeAttribute('aria-current');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.setAttribute('aria-current', 'location');
+                            }
+                        });
+                    }
+                });
+            }, { root: null, rootMargin: '-30% 0px -30% 0px', threshold: 0.1 });
+
+            sections.forEach(section => observer.observe(section));
+
+            // Scroll progress and back-to-top control.
+            const progress = document.getElementById('page-progress');
+            const backToTop = document.getElementById('back-to-top');
+            const updateScrollUI = () => {
+                const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+                progress.style.width = `${scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0}%`;
+                backToTop.classList.toggle('is-visible', window.scrollY > 500);
+            };
+            window.addEventListener('scroll', updateScrollUI, { passive: true });
+            updateScrollUI();
+            backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+            // Reveal content as it enters the viewport.
+            const revealItems = document.querySelectorAll('#about .grid > *, #experience .glass-card, #education .glass-card, #project-grid .project-card, #certificates .glass-card, #contact form');
+            revealItems.forEach(item => item.classList.add('reveal'));
+            if ('IntersectionObserver' in window) {
+                const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                }), { threshold: 0.12 });
+                revealItems.forEach(item => revealObserver.observe(item));
+            } else {
+                revealItems.forEach(item => item.classList.add('is-visible'));
+            }
+
+            // Client-side project filters.
+            const filterButtons = document.querySelectorAll('.filter-chip');
+            const projectCards = document.querySelectorAll('.project-card');
+            filterButtons.forEach(button => button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+                filterButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+                projectCards.forEach(card => { card.hidden = filter !== 'all' && !card.dataset.tech.split(' ').includes(filter); });
+            }));
+        });
+    </script>
+</body>
+</html>
