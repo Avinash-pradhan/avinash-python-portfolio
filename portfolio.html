@@ -41,6 +41,21 @@
         .glass-card:hover { border-color: rgba(34,211,238,.55); box-shadow: 0 18px 42px rgba(0,0,0,.3), 0 0 24px rgba(34,211,238,.08); }
         section { scroll-margin-top: 5rem; }
         .page-progress { position: fixed; inset: 0 auto auto 0; height: 3px; width: 0; z-index: 60; background: linear-gradient(90deg,#22d3ee,#3b82f6,#a78bfa); box-shadow: 0 0 16px rgba(34,211,238,.65); }
+        .page-loader { position:fixed; inset:0; z-index:100; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1.25rem; background:#0b0f19; opacity:1; visibility:visible; transition:opacity .45s ease, visibility .45s ease; }
+        .page-loader.is-hidden { opacity:0; visibility:hidden; pointer-events:none; }
+        .square-morph { position:relative; width:3.5rem; height:3.5rem; border:3px solid rgba(34,211,238,.3); border-top-color:#22d3ee; border-right-color:#60a5fa; border-radius:8px; animation:square-morph 1.05s cubic-bezier(.65,0,.35,1) infinite; box-shadow:0 0 28px rgba(34,211,238,.16); }
+        .square-morph::after { content:""; position:absolute; inset:10px; border-radius:4px; background:linear-gradient(135deg,#22d3ee,#3b82f6); animation:square-morph-inner 1.05s ease-in-out infinite; }
+        @keyframes square-morph { 0%,100% { transform:rotate(0) scale(.78); border-radius:8px; } 50% { transform:rotate(180deg) scale(1); border-radius:50%; } }
+        @keyframes square-morph-inner { 0%,100% { transform:rotate(0) scale(.72); border-radius:4px; } 50% { transform:rotate(-90deg) scale(1); border-radius:50%; } }
+        .loader-label { color:#a5f3fc; font-size:.78rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; }
+        .hamburger-icon { position:relative; display:block; width:1.55rem; height:1.35rem; }
+        .hamburger-line { position:absolute; left:0; width:100%; height:2px; border-radius:999px; background:currentColor; transition:top .25s ease, transform .25s ease, opacity .18s ease; }
+        .hamburger-line:nth-child(1) { top:2px; }
+        .hamburger-line:nth-child(2) { top:9px; }
+        .hamburger-line:nth-child(3) { top:16px; }
+        #mobile-menu-btn.is-open .hamburger-line:nth-child(1) { top:9px; transform:rotate(45deg); }
+        #mobile-menu-btn.is-open .hamburger-line:nth-child(2) { opacity:0; transform:translateX(-6px); }
+        #mobile-menu-btn.is-open .hamburger-line:nth-child(3) { top:9px; transform:rotate(-45deg); }
         .hero-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.68; }
         .hero-video-shade { position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,15,25,.28),rgba(11,15,25,.55)); pointer-events:none; }
         #home { position:relative; isolation:isolate; }
@@ -106,9 +121,9 @@
             body { font-size: 16px; }
             #home { min-height:100vh; min-height:100svh; }
             #home > .hero-video,
-            #home > .hero-video-shade { top:0 !important; right:0 !important; bottom:auto !important; left:0 !important; width:100vw !important; height:100vh !important; height:100svh !important; height:100dvh !important; }
-            #home > .hero-video { min-height:0; object-fit:cover !important; object-position:50% 50%; opacity:.72; }
-            #home > .hero-video-shade { background:linear-gradient(180deg,rgba(11,15,25,.28),rgba(11,15,25,.56)); }
+            #home > .hero-video-shade { inset:0 !important; width:100% !important; height:100% !important; }
+            #home > .hero-video { min-height:0; object-fit:cover !important; object-position:50% 50%; opacity:.95; }
+            #home > .hero-video-shade { background:linear-gradient(180deg,rgba(11,15,25,.12),rgba(11,15,25,.4)); }
             #about img, .portrait-fallback { min-height: 0; }
             #about .grid { gap: 2rem; }
             #about .grid > div:first-child > p { font-size:1.1rem; }
@@ -127,6 +142,10 @@
     </style>
 </head>
 <body class="text-gray-100 antialiased selection:bg-cyan-500 selection:text-gray-900">
+    <div id="page-loader" class="page-loader" role="status" aria-live="polite" aria-label="Loading portfolio">
+        <div class="square-morph" aria-hidden="true"></div>
+        <span class="loader-label">Loading portfolio</span>
+    </div>
     <div class="page-progress" id="page-progress" aria-hidden="true"></div>
 
     <!-- Header / Navigation -->
@@ -146,9 +165,7 @@
             </div>
             <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-cyan-400 rounded-lg p-2 transition duration-300" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                </svg>
+                <span class="hamburger-icon" aria-hidden="true"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></span>
             </button>
         </nav>
         <!-- Mobile Menu Dropdown -->
@@ -167,7 +184,7 @@
         <!-- Section 1: Home / Hero -->
         <section id="home" class="min-h-screen flex items-center justify-center py-20 px-4 relative overflow-hidden pt-24">
             <video class="hero-video" aria-hidden="true" autoplay muted loop playsinline preload="metadata" tabindex="-1">
-                <source src="./animation%20video.mp4" type="video/mp4">
+                <source src="./mobile view animation video.mp4" type="video/mp4">
             </video>
             <div class="hero-video-shade" aria-hidden="true"></div>
             <!-- Subtle Background Glow -->
@@ -458,26 +475,44 @@
     <!-- JavaScript Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Square-morph intro loader: show briefly, then remove once page assets load.
+            const pageLoader = document.getElementById('page-loader');
+            const loaderStartedAt = performance.now();
+            let loaderDismissScheduled = false;
+            const dismissLoader = () => {
+                if (loaderDismissScheduled) return;
+                loaderDismissScheduled = true;
+                const delay = Math.max(0, 550 - (performance.now() - loaderStartedAt));
+                window.setTimeout(() => {
+                    pageLoader.classList.add('is-hidden');
+                    pageLoader.setAttribute('aria-hidden', 'true');
+                }, delay);
+            };
+            window.addEventListener('load', dismissLoader, { once: true });
+            window.setTimeout(dismissLoader, 4000);
+
             // 1. Mobile Menu Toggle
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
             const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
-
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                const isOpen = !mobileMenu.classList.contains('hidden');
+            const setMobileMenuOpen = isOpen => {
+                mobileMenu.classList.toggle('hidden', !isOpen);
+                mobileMenuBtn.classList.toggle('is-open', isOpen);
                 mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
                 mobileMenuBtn.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+            };
+
+            mobileMenuBtn.addEventListener('click', () => {
+                setMobileMenuOpen(mobileMenu.classList.contains('hidden'));
             });
 
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-                        mobileMenuBtn.setAttribute('aria-label', 'Open navigation menu');
-                    }
+                    if (!mobileMenu.classList.contains('hidden')) setMobileMenuOpen(false);
                 });
+            });
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape' && !mobileMenu.classList.contains('hidden')) setMobileMenuOpen(false);
             });
 
             // 2. Contact Form Handler
