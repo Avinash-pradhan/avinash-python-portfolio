@@ -105,7 +105,9 @@
         @media (max-width: 767px) {
             body { font-size: 16px; }
             #home { min-height:100vh; min-height:100svh; }
-            #home > .hero-video { min-height:100%; object-position:center center; opacity:.72; }
+            #home > .hero-video,
+            #home > .hero-video-shade { top:0; right:0; bottom:auto; left:0; width:100vw; height:100vh; height:100svh; height:100dvh; }
+            #home > .hero-video { min-height:0; object-fit:cover !important; object-position:50% 50%; opacity:.72; }
             #home > .hero-video-shade { background:linear-gradient(180deg,rgba(11,15,25,.28),rgba(11,15,25,.56)); }
             #about img, .portrait-fallback { min-height: 0; }
             #about .grid { gap: 2rem; }
