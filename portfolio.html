@@ -41,6 +41,8 @@
         .glass-card:hover { border-color: rgba(34,211,238,.55); box-shadow: 0 18px 42px rgba(0,0,0,.3), 0 0 24px rgba(34,211,238,.08); }
         section { scroll-margin-top: 5rem; }
         .page-progress { position: fixed; inset: 0 auto auto 0; height: 3px; width: 0; z-index: 60; background: linear-gradient(90deg,#22d3ee,#3b82f6,#a78bfa); box-shadow: 0 0 16px rgba(34,211,238,.65); }
+        .hero-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.32; }
+        .hero-video-shade { position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,15,25,.52),rgba(11,15,25,.82)); pointer-events:none; }
         .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
         .reveal.is-visible { opacity: 1; transform: translateY(0); }
         .nav-link[aria-current="location"] { color: #22d3ee; font-weight: 700; }
@@ -49,6 +51,7 @@
         #back-to-top { opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s, transform .2s; }
         #back-to-top.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } .reveal { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) { .hero-video { display:none; } }
         /* Larger, more comfortable reading scale across the whole portfolio. */
         body { font-size: 18px; }
         .text-xs { font-size: .9rem; }
@@ -154,6 +157,10 @@
     <main>
         <!-- Section 1: Home / Hero -->
         <section id="home" class="min-h-screen flex items-center justify-center py-20 px-4 relative overflow-hidden pt-24">
+            <video class="hero-video" aria-hidden="true" autoplay muted loop playsinline preload="metadata" tabindex="-1">
+                <source src="./animation%20video.mp4" type="video/mp4">
+            </video>
+            <div class="hero-video-shade" aria-hidden="true"></div>
             <!-- Subtle Background Glow -->
             <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
