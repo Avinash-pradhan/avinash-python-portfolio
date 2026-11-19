@@ -43,6 +43,10 @@
         .page-progress { position: fixed; inset: 0 auto auto 0; height: 3px; width: 0; z-index: 60; background: linear-gradient(90deg,#22d3ee,#3b82f6,#a78bfa); box-shadow: 0 0 16px rgba(34,211,238,.65); }
         .hero-video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.68; }
         .hero-video-shade { position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,15,25,.28),rgba(11,15,25,.55)); pointer-events:none; }
+        #home { position:relative; isolation:isolate; }
+        #home > .hero-video { position:absolute !important; inset:0 !important; display:block; width:100% !important; max-width:none !important; height:100% !important; object-fit:cover !important; object-position:center center; z-index:0 !important; }
+        #home > .hero-video-shade { position:absolute !important; inset:0 !important; z-index:1; }
+        #home > .container { position:relative; z-index:2; }
         .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
         .reveal.is-visible { opacity: 1; transform: translateY(0); }
         .nav-link[aria-current="location"] { color: #22d3ee; font-weight: 700; }
@@ -100,9 +104,9 @@
         }
         @media (max-width: 767px) {
             body { font-size: 16px; }
-            #home { min-height:100vh; min-height:100svh; isolation:isolate; }
-            #home .hero-video { inset:0; width:100%; height:100%; object-fit:cover; object-position:center center; opacity:.62; z-index:0; }
-            #home .hero-video-shade { inset:0; z-index:1; background:linear-gradient(180deg,rgba(11,15,25,.36),rgba(11,15,25,.64)); }
+            #home { min-height:100vh; min-height:100svh; }
+            #home > .hero-video { min-height:100%; object-position:center center; opacity:.72; }
+            #home > .hero-video-shade { background:linear-gradient(180deg,rgba(11,15,25,.28),rgba(11,15,25,.56)); }
             #about img, .portrait-fallback { min-height: 0; }
             #about .grid { gap: 2rem; }
             #about .grid > div:first-child > p { font-size:1.1rem; }
